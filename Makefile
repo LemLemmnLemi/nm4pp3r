@@ -5,10 +5,10 @@ CC := gcc
 #target: dependencies
 #	action
 
-all: nmapper
+all: nm4pp3r
 
-nmapper: main.o
-	$(CC) main.o -o nmapper
+nm4pp3r: main.o
+	$(CC) main.o -o nm4pp3r
 
 main.o: main.c
 	$(CC) -c main.c
