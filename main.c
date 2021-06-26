@@ -166,5 +166,4 @@ int isCorrectFile(char* file, char* extension)
     {
        return -1; 
     }
-
 }
